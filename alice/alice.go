@@ -25,6 +25,7 @@ func main() {
 		return
 	}
 
+	fmt.Printf("Alice: Listening on %s", l.Addr().String())
 	for {
 		c, err := l.Accept()
 		if err != nil {
@@ -37,6 +38,7 @@ func main() {
 }
 
 func handleConn(conn net.Conn) {
+	fmt.Println("Reading the message")
 	encodedMessage, err := ioutil.ReadAll(conn)
 	if err != nil {
 		fmt.Println(err)
@@ -50,6 +52,7 @@ func handleConn(conn net.Conn) {
 		return
 	}
 
+	fmt.Println("Reading the public key")
 	publicKey, err := getPublicKey()
 	if err != nil {
 		fmt.Println(err)
@@ -60,12 +63,13 @@ func handleConn(conn net.Conn) {
 	h.Write([]byte(signedMessage.Msg))
 	hashDigest := h.Sum(nil)
 
+	fmt.Println("Verifying the message with public key")
 	err = rsa.VerifyPKCS1v15(publicKey, crypto.SHA256, hashDigest, signedMessage.Sign)
 	if err != nil {
 		fmt.Printf("verification failed because: %+v", err)
 		return
 	}
-	fmt.Println("Message Verified")
+	fmt.Println("Alice: Message verified and read. Love you back.")
 }
 
 func getPublicKey() (*rsa.PublicKey, error) {

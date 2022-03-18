@@ -20,17 +20,20 @@ type Message struct {
 }
 
 func main() {
+	fmt.Println("Creating message")
 	message := "Hello, Alice"
 	h := sha256.New()
 	h.Write([]byte(message))
 	hashDigest := h.Sum(nil)
 
+	fmt.Println("Reading private key")
 	privateKey, err := getPrivateKey()
 	if err != nil {
 		fmt.Printf("failed to fetch private key. error: %v", err)
 		return
 	}
 
+	fmt.Println("Signing the message with private key")
 	messageSign, err := rsa.SignPKCS1v15(rand.Reader, privateKey, crypto.SHA256, hashDigest)
 	if err != nil {
 		fmt.Println(err)
@@ -48,6 +51,7 @@ func main() {
 		return
 	}
 
+	fmt.Println("Bob: Sending the signed message over localhost:8081")
 	c, err := net.Dial("tcp", "localhost:8081")
 	if err != nil {
 		fmt.Println(err)
@@ -59,6 +63,7 @@ func main() {
 		fmt.Println(err)
 		return
 	}
+	fmt.Println("Bob: Message sent")
 }
 
 func getPrivateKey() (*rsa.PrivateKey, error) {
