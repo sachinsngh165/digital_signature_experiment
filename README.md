@@ -13,6 +13,13 @@ Broadly ditial signature have 3 purposes
 2. Non-repudiation: It ensures that sender have sent the message and they can not deny later on
 3. Integrity: It ensures that the message have not been altered.
 
+## Setup
+```
+foo@bar:~$ make setup
+foo@bar:~$ make run_alice
+foo@bar:~$ make run_bob
+```
+
 ## References:
 * https://www.youtube.com/watch?v=TmA2QWSLSPg&ab_channel=SunnyClassroom
 * https://www.thedigitalcatonline.com/blog/2018/04/25/rsa-keys/
